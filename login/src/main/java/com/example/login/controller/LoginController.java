@@ -27,9 +27,9 @@ public class LoginController {
 		
 	@PostMapping("/public/login")
 	public String login(HttpSession session, Member member) {
-		boolean pass = memberService.bringMember(member);
-		
-		if(pass) { // 로그인 됐으면 1 아니면 2로 이동
+		int pass = memberService.bringMember(member);
+		log.debug("pass ---> "+pass);
+		if(pass == 1) { // 로그인 됐으면 1 아니면 2로 이동
 			return "redirect:/auth/on";
 		} else {
 			return "redirect:/public/login";

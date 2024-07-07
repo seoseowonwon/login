@@ -17,15 +17,20 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberService {
 	@Autowired MemberMapper memberMapper;
 	
-	public boolean bringMember(Member member){
+	public int bringMember(Member member){ // 아이디 비밀번호 비교 후 로그인 결정
 		log.debug("memberMapper Data --> "+memberMapper.selectMember(member.getId()));
 		Map<String, Object> userInfo = memberMapper.selectMember(member.getId());
+		//디버깅
+		log.debug("userInfo -->"+userInfo.toString());
+		log.debug("user password -->"+userInfo.get("password"));
+		log.debug("member.getPassword -->"+member.getPassword());
 		
+		//입력한 ID, PW와 DB의 ID, PW값이 일치할 때,
 		if(member.getId().equals(userInfo.get("id")) 
 				&& member.getPassword().equals(userInfo.get("password"))){
-			return true;
+			return 1; // 일치하면 1을 반환
 		} else {
-			return false;
+			return 0; // 불일치시 0을 반환
 		}
 	}
 }
